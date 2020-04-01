@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 // Get url and query from our client side and then make request below
 app.get('/api/v1/profile-search', async (req, res) => {
 	try {
-		// eg. http://localhost:4000/api/v1/profile-search?q=
+		// eg. http://localhost:5000/api/v1/profile-search?q=
 		const searchString = `${req.query.q}`;
 
 		const results = await axios.get(
@@ -46,7 +46,7 @@ app.get('/api/v1/profile-search', async (req, res) => {
 
 app.get('/api/v1/repo-search', async (req, res) => {
 	try {
-		// eg. http://localhost:4000/api/v1/repo-search?q=
+		// eg. http://localhost:5000/api/v1/repo-search?q=
 		const searchString = `${req.query.q}`;
 
 		const results = await axios.get(

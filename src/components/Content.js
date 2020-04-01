@@ -25,12 +25,7 @@ export default function Content() {
 
 	const getProfiles = async userText => {
 		try {
-			// 	`https://api.github.com/users/${userText}?client_id=${client_id}&client_secret=${secret}`
-
-			const results = await axios(
-				// https://mark-node-proxy.herokuapp.com/api/v1/profile-search?q=${userText}
-				`/api/v1/profile-search?q=${userText}`
-			);
+			const results = await axios(`/api/v1/profile-search?q=${userText}`);
 
 			if (results.data.success === true) {
 				const profile = await results.data.profile;
@@ -51,17 +46,18 @@ export default function Content() {
 				setText('');
 				setAlert('No user was found!');
 			} else {
-				console.log('Server Error (500)');
+				setAlert(
+					`Server Error with status of ${error.response.status} whilst fetching profiles`
+				);
 			}
 		}
 	};
 
+	// 	`https://api.github.com/users/${userText}/repos?per_page=${repos_count}&sort=${repos_sort}&client_id=${client_id}&client_secret=${secret}`
 	const getRepos = async userText => {
 		try {
-			// 	`https://api.github.com/users/${userText}/repos?per_page=${repos_count}&sort=${repos_sort}&client_id=${client_id}&client_secret=${secret}`
-
 			const results = await axios(
-				// https://mark-node-proxy.herokuapp.com/api/v1/repo-search?q=${userText}
+				// As we use a proxy in package.json no localhost
 				`/api/v1/repo-search?q=${userText}`
 			);
 
@@ -70,14 +66,16 @@ export default function Content() {
 				setRepos(repos);
 			} else {
 				setRepos([]);
-				setText('');
 			}
 		} catch (error) {
 			if (error.response.status === 404) {
+				setAlert('No repos were found!');
 				setRepos([]);
-				setText('');
 			} else {
-				console.log('Server Error (500)');
+				setAlert(
+					`Server Error with status of ${error.response.status} whilst fetching repos`
+				);
+				setRepos([]);
 			}
 		}
 	};
