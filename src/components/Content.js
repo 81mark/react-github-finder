@@ -3,6 +3,7 @@ import { Alert } from './Alert';
 import { Profile } from './Profile';
 import { Repos } from './Repos';
 import axios from 'axios';
+const PORT = process.env.PORT || 3000;
 
 export default function Content() {
 	// State is where we set our bits!
@@ -28,7 +29,8 @@ export default function Content() {
 			// 	`https://api.github.com/users/${userText}?client_id=${client_id}&client_secret=${secret}`
 
 			const results = await axios(
-				`https://mark-node-proxy.herokuapp.com/api/v1/profile-search?q=${userText}`
+				// https://mark-node-proxy.herokuapp.com/api/v1/profile-search?q=${userText}
+				`http://localhost:${PORT}/api/v1/profile-search?q=${userText}`
 			);
 
 			if (results.data.success === true) {
@@ -60,7 +62,8 @@ export default function Content() {
 			// 	`https://api.github.com/users/${userText}/repos?per_page=${repos_count}&sort=${repos_sort}&client_id=${client_id}&client_secret=${secret}`
 
 			const results = await axios(
-				`https://mark-node-proxy.herokuapp.com/api/v1/repo-search?q=${userText}`
+				// https://mark-node-proxy.herokuapp.com/api/v1/repo-search?q=${userText}
+				`http://localhost:${PORT}/api/v1/repo-search?q=${userText}`
 			);
 
 			if (results.data.success === true) {
