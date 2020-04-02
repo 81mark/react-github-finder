@@ -26,7 +26,7 @@ export const Profile = ({ profile }) => {
 							View Profile
 						</a>
 					</div>
-					{profile.createdString ? (
+					{profile.id ? (
 						<div className='col-md-9'>
 							<span className='badge badge-primary'>
 								Public Repos: {profile.public_repos}
@@ -62,7 +62,7 @@ export const Profile = ({ profile }) => {
 					)}
 				</div>
 			</div>
-			<h3 className='page-heading mb-3'>Latest Repos</h3>
+			{profile.id ? <h3 className='page-heading mb-3'>Latest Repos</h3> : ''}
 		</>
 	);
 };

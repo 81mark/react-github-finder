@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const Alert = ({ alertMessage }) => {
+export const Alert = ({ alertMessage, alertClass }) => {
 	return (
-		<div className={alertMessage !== '' ? 'alert alert-danger' : null}>
+		<div className={alertMessage !== '' ? alertClass : null}>
 			{alertMessage}
 		</div>
 	);

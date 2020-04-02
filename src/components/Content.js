@@ -10,22 +10,27 @@ export default function Content() {
 	const [profile, setProfile] = useState([]);
 	const [repos, setRepos] = useState([]);
 	const [alertMessage, setAlert] = useState('');
+	const [alertClass, setAlertClass] = useState('');
 
 	// useEffect is where we call our api/functions that need refreshing (dynamic)
 	useEffect(() => {
 		if (userText !== '') {
 			getProfiles(userText);
 			getRepos(userText);
-		} else if (userText === '') {
-			setProfile([]);
-			setText('');
-			setRepos([]);
+		} else if (userText === '' || !profile.id || !repos.id) {
+			// Need a better way to set delay on clearing profiles. For V3
+			const wait = setTimeout(() => {
+				setProfile([]);
+				setRepos([]);
+				setText('');
+			}, 1000);
+			return () => clearTimeout(wait);
 		}
 		const clearAlert = setTimeout(() => {
 			setAlert('');
-		}, 3000);
+		}, 2000);
 		return () => clearTimeout(clearAlert);
-	}, [userText]);
+	}, [profile.id, repos.id, userText]);
 
 	const getProfiles = async userText => {
 		try {
@@ -36,22 +41,23 @@ export default function Content() {
 				setAlert('');
 				setProfile(profile);
 			} else if (results.data.success === false) {
-				setProfile([]);
-				setText('');
-				setAlert('No user was found!');
+				setAlert('No user was found!', setAlertClass('alert alert-warning'));
 			} else {
-				setProfile([]);
-				setText('');
-				setAlert('Server Error, please try later');
+				setAlert(
+					'Server Error, please try later',
+					setAlertClass('alert alert-danger')
+				);
 			}
 		} catch (error) {
 			if (error.response.status === 404) {
-				setProfile([]);
 				setText('');
-				setAlert('No user was found!');
+				setAlert('No user was found!', setAlertClass('alert alert-warning'));
+				setProfile([]);
+				setRepos([]);
 			} else {
 				setAlert(
-					`Server Error with status of ${error.response.status} whilst fetching profiles`
+					`Server Error with status of ${error.response.status} whilst fetching profiles`,
+					setAlertClass('alert alert-danger')
 				);
 			}
 		}
@@ -68,18 +74,15 @@ export default function Content() {
 			if (results.data.success === true) {
 				const repos = await results.data.repos;
 				setRepos(repos);
-			} else {
-				setRepos([]);
 			}
 		} catch (error) {
 			if (error.response.status === 404) {
-				setAlert('No repos were found!');
-				setRepos([]);
+				setAlert('No repos were found!', setAlertClass('alert alert-warning'));
 			} else {
 				setAlert(
-					`Server Error with status of ${error.response.status} whilst fetching repos`
+					`Server Error with status of ${error.response.status} whilst fetching repos`,
+					setAlertClass('alert alert-danger')
 				);
-				setRepos([]);
 			}
 		}
 	};
@@ -87,7 +90,7 @@ export default function Content() {
 	return (
 		<div>
 			<div className='container searchContainer'>
-				<Alert alertMessage={alertMessage} />
+				<Alert alertMessage={alertMessage} alertClass={alertClass} />
 				<div className='search card card-body'>
 					<h1>Search GitHub Users</h1>
 					<p className='lead'>
