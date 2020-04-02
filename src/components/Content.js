@@ -16,6 +16,10 @@ export default function Content() {
 		if (userText !== '') {
 			getProfiles(userText);
 			getRepos(userText);
+		} else if (userText === '') {
+			setProfile([]);
+			setText('');
+			setRepos([]);
 		}
 		const clearAlert = setTimeout(() => {
 			setAlert('');
