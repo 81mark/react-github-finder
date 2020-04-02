@@ -94,7 +94,7 @@ export default function Content() {
 				<div className='search card card-body'>
 					<h1>Search GitHub Users</h1>
 					<p className='lead'>
-						Enter a username to fetch a user profile and repos
+						Enter a username to fetch a user profile and repos.
 					</p>
 					<input
 						type='text'
