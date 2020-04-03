@@ -29,6 +29,7 @@ app.get('/api/v1/profile-search', async (req, res) => {
 
 		const results = await axios.get(
 			`https://api.github.com/users/${searchString}?client_id=${process.env.CID}&client_secret=${process.env.CS}`
+			// `https://api.github.com/users/${searchString}?client_id=${CID}&client_secret=${CS}`
 		);
 		const profile = await results.data;
 
@@ -51,6 +52,7 @@ app.get('/api/v1/repo-search', async (req, res) => {
 
 		const results = await axios.get(
 			`https://api.github.com/users/${searchString}/repos?per_page=${process.env.RC}&sort=${process.env.RS}&client_id=${process.env.CID}&client_secret=${process.env.CS}`
+			// `https://api.github.com/users/${searchString}/repos?per_page=${RC}&sort=${RS}&client_id=${CID}&client_secret=${CS}`
 		);
 		const repos = await results.data;
 

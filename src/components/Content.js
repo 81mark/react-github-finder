@@ -11,55 +11,44 @@ export default function Content() {
 	const [repos, setRepos] = useState([]);
 	const [alertMessage, setAlert] = useState('');
 	const [alertClass, setAlertClass] = useState('');
+	const [noUser, setUser] = useState(false);
 
 	// useEffect is where we call our api/functions that need refreshing (dynamic)
 	useEffect(() => {
 		if (userText !== '') {
 			getProfiles(userText);
+		}
+		if (!noUser && userText !== '') {
 			getRepos(userText);
-		} else if (userText === '' || !profile.id || !repos.id) {
-			// Need a better way to set delay on clearing profiles. For V3
+		}
+		if (noUser || userText === '') {
 			const wait = setTimeout(() => {
+				setAlert('');
 				setProfile([]);
 				setRepos([]);
 				setText('');
-			}, 1000);
+			}, 1500);
 			return () => clearTimeout(wait);
 		}
-		const clearAlert = setTimeout(() => {
-			setAlert('');
-		}, 2000);
-		return () => clearTimeout(clearAlert);
-	}, [profile.id, repos.id, userText]);
+	}, [userText, noUser]);
 
 	const getProfiles = async userText => {
 		try {
 			const results = await axios(`/api/v1/profile-search?q=${userText}`);
-
 			if (results.data.success === true) {
-				const profile = await results.data.profile;
 				setAlert('');
-				setProfile(profile);
+				setUser(false);
+				setProfile(await results.data.profile);
 			} else if (results.data.success === false) {
+				setUser(true);
 				setAlert('No user was found!', setAlertClass('alert alert-warning'));
-			} else {
-				setAlert(
-					'Server Error, please try later',
-					setAlertClass('alert alert-danger')
-				);
 			}
 		} catch (error) {
-			if (error.response.status === 404) {
-				setText('');
-				setAlert('No user was found!', setAlertClass('alert alert-warning'));
-				setProfile([]);
-				setRepos([]);
-			} else {
-				setAlert(
-					`Server Error with status of ${error.response.status} whilst fetching profiles`,
-					setAlertClass('alert alert-danger')
-				);
-			}
+			setUser(true);
+			setAlert(
+				`Server Error with status of ${error.response.status} whilst fetching profiles`,
+				setAlertClass('alert alert-danger')
+			);
 		}
 	};
 
@@ -70,10 +59,8 @@ export default function Content() {
 				// As we use a proxy in package.json no localhost
 				`/api/v1/repo-search?q=${userText}`
 			);
-
 			if (results.data.success === true) {
-				const repos = await results.data.repos;
-				setRepos(repos);
+				setRepos(await results.data.repos);
 			}
 		} catch (error) {
 			if (error.response.status === 404) {
