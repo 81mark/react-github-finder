@@ -32,9 +32,9 @@ const publicPath = path.join(__dirname, '..', 'build');
 app.use(express.static(publicPath));
 
 // use React app as home page
-app.get('/', (req, res) => {
-	res.sendFile(path.join(publicPath, 'index.html'));
-});
+// app.get('/', (req, res) => {
+// 	res.sendFile(path.join(publicPath, 'index.html'));
+// });
 
 // Routes
 
