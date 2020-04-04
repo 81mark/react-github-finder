@@ -1,6 +1,6 @@
 {
 	"name": "proxy-server",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "proxy server to handle api requests from server not client",
 	"main": "app.js",
 	"scripts": {
@@ -18,7 +18,9 @@
 		"cors": "^2.8.5",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
-		"express-rate-limit": "^5.0.0"
+		"helmet": "^3.22.0",
+		"hpp": "^0.2.3",
+		"xss-clean": "^0.1.1"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.2"

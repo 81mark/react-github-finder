@@ -1,6 +1,6 @@
 {
 	"name": "react-github-finder",
-	"version": "3.0.0",
+	"version": "4.0.0",
 	"private": true,
 	"dependencies": {
 		"@testing-library/jest-dom": "^4.2.4",
@@ -17,7 +17,9 @@
 	},
 	"scripts": {
 		"start": "node proxy/app.js",
-		"rstart": "react-scripts start",
+		"client": "react-scripts start",
+		"server": "nodemon proxy/app.js",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
 		"build": "react-scripts build"
 	},
 	"eslintConfig": {
@@ -35,5 +37,8 @@
 			"last 1 safari version"
 		]
 	},
-	"proxy": "http://localhost:5000"
+	"proxy": "http://localhost:5000",
+	"devDependencies": {
+		"concurrently": "^5.1.0"
+	}
 }
