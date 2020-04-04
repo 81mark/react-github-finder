@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 require('dotenv').config();
-const helmet = require('helmet');
+// const helmet = require('helmet');
 // const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
@@ -14,7 +14,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Set security headers
-app.use(helmet());
+// app.use(helmet());
 
 // Prevent XSS attacks
 // app.use(xss());
@@ -37,6 +37,7 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+
 app.use('/api/v1/profile-search', profiles);
 app.use('/api/v1/repo-search', repos);
 
