@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 require('dotenv').config();
 const helmet = require('helmet');
-const xss = require('xss-clean');
+// const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 
@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 app.use(helmet());
 
 // Prevent XSS attacks
-app.use(xss());
+// app.use(xss());
 
 // Prevent http param polution
 app.use(hpp());
