@@ -29,15 +29,10 @@ app.use(cors());
 const publicPath = path.join(__dirname, '..', 'build');
 
 // Use public folder
+// No need to get '/' index.html its auto static folder items!
 app.use(express.static(publicPath));
 
-// use React app as home page
-// app.get('/', (req, res) => {
-// 	res.sendFile(path.join(publicPath, 'index.html'));
-// });
-
 // Routes
-
 app.use('/api/v1/profile-search', profiles);
 app.use('/api/v1/repo-search', repos);
 
