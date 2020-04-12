@@ -32,9 +32,12 @@ export default function Content() {
 		}
 	}, [userText, noUser]);
 
-	const getProfiles = async userText => {
+	const getProfiles = async (userText) => {
 		try {
-			const results = await axios(`/api/v1/profile-search?q=${userText}`);
+			// const results = await axios(`/api/v1/profile-search?q=${userText}`);
+			const results = await axios(
+				`https://picture-proxy.herokuapp.com/api/v1/profile-search?q=${userText}`
+			);
 			if (results.data.success === true) {
 				setAlert('');
 				setUser(false);
@@ -53,11 +56,12 @@ export default function Content() {
 	};
 
 	// 	`https://api.github.com/users/${userText}/repos?per_page=${repos_count}&sort=${repos_sort}&client_id=${client_id}&client_secret=${secret}`
-	const getRepos = async userText => {
+	const getRepos = async (userText) => {
 		try {
 			const results = await axios(
 				// As we use a proxy in package.json no localhost
-				`/api/v1/repo-search?q=${userText}`
+				// `/api/v1/repo-search?q=${userText}`
+				`https://picture-proxy.herokuapp.com/api/v1/repo-search?q=${userText}`
 			);
 			if (results.data.success === true) {
 				setRepos(await results.data.repos);
@@ -87,14 +91,14 @@ export default function Content() {
 						type='text'
 						className='form-control'
 						placeholder='GitHub username...'
-						onChange={e => setText(e.target.value)}
+						onChange={(e) => setText(e.target.value)}
 					/>
 				</div>
 				<br />
 				<div id='profile'>
 					<Profile key={profile.id} profile={profile} />
 					<div id='repos'>
-						{repos.map(repo => (
+						{repos.map((repo) => (
 							<Repos key={repo.id} repo={repo} />
 						))}
 					</div>
